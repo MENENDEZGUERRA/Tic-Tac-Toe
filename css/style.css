@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Recursive&display=swap');
 
 body {
     font-family: 'Climate Crisis', cursive;
@@ -13,12 +13,25 @@ body {
 h1 {
     font-size: 50px;
 }
+
+p {
+    font-family: 'Recursive', sans-serif;
+}
+
+.nameInput{
+    background-color: white;
+    padding: 10px;
+    border-radius: 24px;
+}
 .gameboard {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-gap: 10px;
 }
 
+#setup {
+    margin: 40px;
+}
 .cell {
     width: 100px;
     height: 100px;
