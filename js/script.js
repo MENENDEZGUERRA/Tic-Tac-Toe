@@ -3,10 +3,6 @@ const Gameboard = (() => {
 
     const getBoard = () => board;
 
-    const resetBoard = () => {
-        board = ["", "", "", "", "", "", "", "", ""];
-    };
-
     const setMove = (index, symbol) => {
         if (board[index] === "") {
             board[index] = symbol;
@@ -15,7 +11,7 @@ const Gameboard = (() => {
         return false;
     };
 
-    return { getBoard, resetBoard, setMove };
+    return { getBoard, setMove };
 })();
 
 const Player = (name, symbol) => {
@@ -48,23 +44,38 @@ const GameController = (() => {
 })();
 
 const DisplayController = (() => {
+    const gameboardElement = document.getElementById("gameboard");
+    const messageElement = document.getElementById("message");
+
     const renderBoard = () => {
         const board = Gameboard.getBoard();
-        // Code to display the board on the UI
+        board.forEach((symbol, index) => {
+            gameboardElement.children[index].textContent = symbol;
+        });
     };
 
     const updateMessage = (message) => {
-        // Code to update UI message
+        messageElement.textContent = message;
     };
 
-    return { renderBoard, updateMessage };
+    const setupEventListeners = () => {
+        gameboardElement.addEventListener("click", (e) => {
+            if (e.target.classList.contains("cell")) {
+                const index = e.target.dataset.index;
+                GameController.playTurn(index);
+                render();
+            }
+        });
+    };
+
+    const render = () => {
+        renderBoard();
+        updateMessage(`${GameController.getCurrentPlayer().getName()}'s turn`);
+    };
+
+    return { render, setupEventListeners };
 })();
 
-// Player makes a move at index 0
-GameController.playTurn(0);
-
-// Render the board
-DisplayController.renderBoard();
-
-// Update UI message
-DisplayController.updateMessage(`${GameController.getCurrentPlayer().getName()}'s turn`);
+// Initialize game
+DisplayController.setupEventListeners();
+DisplayController.render();
